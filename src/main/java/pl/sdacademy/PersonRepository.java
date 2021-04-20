@@ -66,5 +66,18 @@ public class PersonRepository {
         id++;
         return id;
     }
+    //Dodaj do klasy PersonRepository prywatną metodę createFileLine, która zadziała odwrotnie do metody createPerson
+    private String createFileLine(Person person) {
+       // return person.getId() + "," + person.getFirstName() + "," + person.getLastName() + "," + person.getAge();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(person.getId());
+        stringBuilder.append(",");
+        stringBuilder.append(person.getFirstName());
+        stringBuilder.append(",");
+        stringBuilder.append(person.getLastName());
+        stringBuilder.append(",");
+        stringBuilder.append(person.getAge());
+        return stringBuilder.toString();
+    }
 
 }
