@@ -34,15 +34,37 @@ public class PersonRepository {
     public Set<Person> getAll() {
         return people;
     }
+// 1. Dodaj metodę get, która przyjmie za parametr wartość typu int, a która zwróci osobę o zadanym identyfikatorze.
+// Jeśli takiej osoby nie będzie zwróć null.
 
     public Person get(int id) {
-        Person findPerson = null;
+        /*Person findPerson = null;
         for (Person person : people) {
             if (person.getId() == id) {
                 findPerson = person;
             }
         }
-        return findPerson;
+        return findPerson;*/
+        return people.stream()
+                .filter(person -> person.getId() == id)
+                .findFirst()//trzeba orElse bo mamy Optional Person, tzn. że może czegoś nie znaleźć i co w takim przypdku trzeba zainicjować
+                .orElse(null);
+    }
+
+
+
+    // 2. Dodaj do klasy PersonRepository prywatną metodę generateNextId, która nie przyjmie żadnego parametru,
+    // a która zwróci pierwszą "wolną" wartość identyfikatora osoby.
+    //Niech metoda działa następująco - znajdujemy maksymalny identyfikator i dodajemy do niego 1.
+    private int generateNextId() {
+        int id = 0;
+        for (Person person : people) {
+            if (person.getId() > id) {
+                id = person.getId();
+            }
+        }
+        id++;
+        return id;
     }
 
 }
