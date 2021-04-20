@@ -1,0 +1,4 @@
+1,Jan,Kowalski,50
+2,Anna,Nowak,30
+3,Stefan,Wesołowski,15
+4,John,Smith,65
