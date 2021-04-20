@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PersonRepository {
     private Set<Person> people;
+    String filename;
 
     public PersonRepository(String filename) {
+        this.filename = filename;
         Path filePath = Paths.get(filename);
         try {
             people = Files.lines(filePath)
@@ -68,8 +72,8 @@ public class PersonRepository {
     }
     //Dodaj do klasy PersonRepository prywatną metodę createFileLine, która zadziała odwrotnie do metody createPerson
     private String createFileLine(Person person) {
-       // return person.getId() + "," + person.getFirstName() + "," + person.getLastName() + "," + person.getAge();
-        StringBuilder stringBuilder = new StringBuilder();
+       return person.getId() + "," + person.getFirstName() + "," + person.getLastName() + "," + person.getAge();
+       /* StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(person.getId());
         stringBuilder.append(",");
         stringBuilder.append(person.getFirstName());
@@ -77,7 +81,17 @@ public class PersonRepository {
         stringBuilder.append(person.getLastName());
         stringBuilder.append(",");
         stringBuilder.append(person.getAge());
-        return stringBuilder.toString();
+        return stringBuilder.toString(); */
+    }
+    //4. Dodaj do klasy PersonRepository prywatną metodę saveData, która zapisze aktualny stan listy osób do pliku
+    // (przy użyciu metody createFileLine).
+    private void saveData() throws IOException {
+        Path filePath = Paths.get(filename);
+        List<String> personList = new ArrayList<>();
+        for (Person person : people) {
+            personList.add(createFileLine(person));
+        }
+        Files.write(filePath, personList);
     }
 
 }
