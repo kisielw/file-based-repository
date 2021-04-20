@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,16 @@ public class PersonRepository {
 
     public Set<Person> getAll() {
         return people;
+    }
+
+    public Person get(int id) {
+        Person findPerson = null;
+        for (Person person : people) {
+            if (person.getId() == id) {
+                findPerson = person;
+            }
+        }
+        return findPerson;
     }
 
 }

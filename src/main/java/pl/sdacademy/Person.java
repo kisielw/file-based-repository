@@ -13,6 +13,10 @@ public class Person {
         this.age = age;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
