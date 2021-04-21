@@ -1,4 +1,9 @@
-1,Jan,Kowalski,50
-2,Anna,Nowak,30
-3,Stefan,Wesołowski,15
-4,John,Smith,65
+1,John,Smith,65
+2,Adam,Nowak,85
+3,Adam,Nowak,85
+4,Jan,Kowalski,50
+5,Stefan,Wesołowski,15
+6,Anna,Nowak,30
+7,Adam,Nowak,85
+9,Adam,Nowak,85
+8,Adam,Nowak,85

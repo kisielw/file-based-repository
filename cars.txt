@@ -1,0 +1,3 @@
+2,250,Seat,czarny
+1,200,Audi,czerwony
+3,300,BMW,czarny

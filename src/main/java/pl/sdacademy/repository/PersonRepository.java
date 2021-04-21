@@ -1,22 +1,19 @@
-package pl.sdacademy;
+package pl.sdacademy.repository;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PersonRepository {
     private Set<Person> people;
-    String filename;
+    private Path filePath;
 
     public PersonRepository(String filename) {
-        this.filename = filename;
-        Path filePath = Paths.get(filename);
+        filePath = Paths.get(filename);
         try {
             people = Files.lines(filePath)
             .map(this::createPerson)            // .map(fileLine -> createPerson(fileLine)) - inaczej napisane
@@ -65,7 +62,7 @@ public class PersonRepository {
     // a która zwróci pierwszą "wolną" wartość identyfikatora osoby.
     //Niech metoda działa następująco - znajdujemy maksymalny identyfikator i dodajemy do niego 1.
     private int generateNextId() {
-        int id = -1;
+        int id = 0;
         if (people != null) {
             for (Person person : people) {
                 if (person.getId() != null && person.getId() > id) {
@@ -73,8 +70,11 @@ public class PersonRepository {
                 }
             }
         }
-        id++;
-        return id;
+        return id + 1;
+        /*return people.stream()
+                .mapToInt(Person::getId)
+                .max()
+                .orElse(0) + 1;*/
     }
     //Dodaj do klasy PersonRepository prywatną metodę createFileLine, która zadziała odwrotnie do metody createPerson
     private String createFileLine(Person person) {
@@ -91,15 +91,30 @@ public class PersonRepository {
     }
     //4. Dodaj do klasy PersonRepository prywatną metodę saveData, która zapisze aktualny stan listy osób do pliku
     // (przy użyciu metody createFileLine).
-    private void saveData() throws IOException {
-        Path filePath = Paths.get(filename);
+    private void saveData() {
+        /*Path filePath = Paths.get(filename);
         List<String> personList = new ArrayList<>();
         for (Person person : people) {
             personList.add(createFileLine(person));
         }
-        Files.write(filePath, personList);
+        Files.write(filePath, personList);*/
+        List<String> fileLines = people.stream()
+                .map(this::createFileLine) // map(person -> createFileLine(person))
+                .collect(Collectors.toList());
+        try {
+            Files.write(filePath,fileLines);
+        } catch (IOException e) {
+            throw new RuntimeException("Błąd zapisu danych", e);
+        }
     }
 
+    //6. Dodaj do klasy PersonRepository metodę add, która przyjmie jako parametr obiekt typu Person,
+    // a która doda do repozytorium daną osobę.
 
+    public void add(Person person) {
+        person.setId(generateNextId());
+        people.add(person);
+        saveData();
+    }
 
 }
