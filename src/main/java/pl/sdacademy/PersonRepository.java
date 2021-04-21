@@ -24,15 +24,19 @@ public class PersonRepository {
         } catch (IOException e) {
             throw new RuntimeException("Błąd odczytu danych z pliku");
         }
+        for (Person person : people) {
+            person.setId(generateNextId());
+        }
+
     }
 
     private Person createPerson(String fileLine) {
         String[] fileLineParts = fileLine.split(",");
-        int id = Integer.parseInt(fileLineParts[0]);
         String firstName = fileLineParts[1];
         String lastName = fileLineParts[2];
         int age = Integer.parseInt(fileLineParts[3]);
-        return new Person(id, firstName, lastName, age);
+        return new Person(firstName, lastName, age);
+
     }
 
     public Set<Person> getAll() {
@@ -61,10 +65,12 @@ public class PersonRepository {
     // a która zwróci pierwszą "wolną" wartość identyfikatora osoby.
     //Niech metoda działa następująco - znajdujemy maksymalny identyfikator i dodajemy do niego 1.
     private int generateNextId() {
-        int id = 0;
-        for (Person person : people) {
-            if (person.getId() > id) {
-                id = person.getId();
+        int id = -1;
+        if (people != null) {
+            for (Person person : people) {
+                if (person.getId() != null && person.getId() > id) {
+                    id = person.getId();
+                }
             }
         }
         id++;
@@ -93,5 +99,7 @@ public class PersonRepository {
         }
         Files.write(filePath, personList);
     }
+
+
 
 }
